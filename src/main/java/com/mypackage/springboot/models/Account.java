@@ -1,18 +1,29 @@
 package com.mypackage.springboot.models;
 
+import javafx.beans.DefaultProperty;
+import org.hibernate.validator.constraints.Range;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "accountsdata")
 public class Account {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue
     @Column(name = "accountnumber")
     private int accountNumber;
+
+//    @NotNull
+//    @Range(min = 100, message = "Minimum amount value should be $100")
     @Column(name = "amount")
     private long amount;
+
     @Column(name = "accounttype")
+//    @NotNull
+//    @Size(max = 10, message = "Type should be max 10 characters in length")
     private String accountType;
     @Column(name = "accountdescription")
     private String accountDescription;

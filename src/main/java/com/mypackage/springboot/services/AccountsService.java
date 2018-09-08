@@ -3,9 +3,11 @@ package com.mypackage.springboot.services;
 import com.mypackage.springboot.models.Account;
 import com.mypackage.springboot.repositories.AccountsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
+import javax.sql.DataSource;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
@@ -14,6 +16,7 @@ import java.util.function.Consumer;
 public class AccountsService {
     @Autowired
     AccountsRepository accountsRepository;
+
 
     public List<Account> getAllAccounts() {
 
@@ -39,5 +42,25 @@ public class AccountsService {
 
     public Account createAccount(Account account) {
         return accountsRepository.save(account);
+    }
+
+    public Account updateAccount(Account account) {
+
+        return accountsRepository.findById(account.getAccountNumber())
+                .map(account1 -> {
+                    account1.setAmount(account.getAmount());
+                    account1.setAccountType(account.getAccountType());
+                    account1.setAccountDescription(account.getAccountDescription());
+                    return accountsRepository.save(account1);
+                })
+                .orElseGet(()-> {
+                    return accountsRepository.save(account);
+                });
+
+    }
+
+    public void deleteAccount(int accountNumber) {
+        accountsRepository.deleteById(accountNumber);
+
     }
 }

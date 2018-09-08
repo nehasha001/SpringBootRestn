@@ -59,5 +59,7 @@ public interface AccountsRepository  extends CrudRepository<Account, Integer> {
 //        return new Account(1245, 6000, "Checkings","Personal account");
 //    }
 
+    public Account findByAccountType(String accountType);
+
 
 }
